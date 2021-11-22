@@ -15,8 +15,8 @@ def past_days_news(request,past_date):
 
 # Create your views here.
 def welcome(request):
-    return HttpResponse('Welcome to the Moringa Tribune')
-
+    return render(request, 'welcome.html')
+    
 def news_of_day(request):
     date = dt.date.today()
      # FUNCTION TO CONVERT DATE OBJECT TO FIND EXACT DAY
