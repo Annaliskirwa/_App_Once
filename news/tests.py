@@ -45,3 +45,7 @@ class ArticleTestClass(TestCase):
         Editor.objects.all().delete()
         tags.objects.all().delete()
         Article.objects.all().delete()
+
+    def test_get_news_today(self):
+        today_news = Article.todays_news()
+        self.assertTrue(len(today_news)>0)
