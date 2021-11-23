@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http  import HttpResponse, Http404
 import datetime as dt
-from .models import Article
+# from .models import Article
 
 
 # View Function to present news from past days
@@ -19,7 +19,7 @@ def past_days_news(request, past_date):
 
     news = Article.days_news(date)
     return render(request, 'all-news/past-news.html',{"date": date,"news":news})
-    
+
 # Create your views here.
 def welcome(request):
     return render(request, 'welcome.html')
