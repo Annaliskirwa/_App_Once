@@ -8,4 +8,6 @@ class EditorTestClass(TestCase):
     def setUp(self):
         self.james= Editor(first_name = 'James', last_name ='Muriuki', email ='james@moringaschool.com')
 
-
+# Testing  instance
+    def test_instance(self):
+        self.assertTrue(isinstance(self.james,Editor))
