@@ -5,6 +5,8 @@ from .models import Article, NewsLetterRecipients
 from .forms import NewsLetterForm
 from django.core.exceptions import ObjectDoesNotExist
 from . emails import send_welcome_email
+from django.contrib.auth.decorators import login_required
+
 
 
 # View Function to present news from past days
@@ -83,7 +85,9 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-news/search.html',{"message":message})
-def article(request,article_id):
+
+@login_required(login_url='/accounts/login/')
+def article(request, article_id):
     try:
         article = Article.objects.get(id = article_id)
     except ObjectDoesNotExist:
