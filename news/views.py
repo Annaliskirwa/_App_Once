@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
-from django.http  import HttpResponse, Http404
+from django.http import HttpResponse, Http404,HttpResponseRedirect
 import datetime as dt
-from .models import Article
+from .models import Article, NewsLetterRecipients
+from .forms import NewsLetterForm
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # View Function to present news from past days
@@ -53,12 +55,21 @@ def past_days_news(request,past_date):
             '''
     return HttpResponse(html)
 
-
 def news_today(request):
     date = dt.date.today()
     news = Article.todays_news()
-    return render(request, 'all-news/today-news.html', {"date": date,"news":news})
-
+    if request.method == 'POST':
+        form = NewsLetterForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['your_name']
+            email = form.cleaned_data['email']
+            recipient = NewsLetterRecipients(name = name,email =email)
+            recipient.save()
+            HttpResponseRedirect('news_today')
+    else:
+        form = NewsLetterForm()
+    return render(request, 'all-news/today-news.html', {"date": date,"news":news,"letterForm":form})
+    
 def search_results(request):
 
     if 'article' in request.GET and request.GET["article"]:
@@ -74,6 +85,6 @@ def search_results(request):
 def article(request,article_id):
     try:
         article = Article.objects.get(id = article_id)
-    except DoesNotExist:
+    except ObjectDoesNotExist:
         raise Http404()
     return render(request,"all-news/article.html", {"article":article})
