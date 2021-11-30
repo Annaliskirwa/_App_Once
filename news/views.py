@@ -3,6 +3,7 @@ from django.http  import HttpResponse, Http404
 import datetime as dt
 from .models import Article
 from .forms import NewsLetterForm
+from django.core.exceptions import ObjectDoesNotExist
 
 
 # View Function to present news from past days
@@ -65,7 +66,7 @@ def news_today(request):
     else:
         form = NewsLetterForm()
     return render(request, 'all-news/today-news.html', {"date": date,"news":news,"letterForm":form})
-    
+
 def search_results(request):
 
     if 'article' in request.GET and request.GET["article"]:
@@ -81,6 +82,6 @@ def search_results(request):
 def article(request,article_id):
     try:
         article = Article.objects.get(id = article_id)
-    except DoesNotExist:
+    except ObjectDoesNotExist:
         raise Http404()
     return render(request,"all-news/article.html", {"article":article})
