@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from django.contrib.auth import views 
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     # url(r'^accounts/', include('registration.backends.simple.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'',include('news.urls')),
     url('logout/', views.LogoutView.as_view(), name='logout'),
+    url(r'^api-token-auth/', obtain_auth_token)
 ]
 
