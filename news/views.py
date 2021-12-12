@@ -11,7 +11,7 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import  MoringaMerch
-from .serializer import MerchSerializer
+from .serializers import MerchSerializer
 from rest_framework import status
 # from .permissions import IsAdminOrReadOnly
 
